@@ -1,7 +1,7 @@
 <template>
   <el-scrollbar style="height: 690px">
-    <el-form ref="form" :model="form" label-width="150px">
-      <el-form-item label="公众号">
+    <el-form ref="form" :model="form" :rules="rules" label-width="150px">
+      <el-form-item label="公众号" prop="wechatMpId">
         <el-select
           v-model="form.wechatMpId"
           placeholder="请选择公众号"
@@ -13,7 +13,7 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="活动标题">
+      <el-form-item label="活动标题" prop="activityTitle">
         <el-input
           class="input-box"
           v-model="form.activityTitle"
@@ -67,27 +67,31 @@
 
       <el-form-item label="活动时间">
         <el-col :span="11">
-          <el-date-picker
-            class="input-box"
-            type="date"
-            placeholder="选择日期"
-            v-model="form.date1"
-            style="width: 90%"
-          ></el-date-picker>
+          <el-form-item prop="date1">
+            <el-date-picker
+              class="input-box"
+              type="date"
+              placeholder="选择日期"
+              v-model="form.date1"
+              style="width: 90%"
+            ></el-date-picker>
+          </el-form-item>
         </el-col>
         <el-col class="line" :span="2"> -</el-col>
-        <el-col :span="11">
-          <el-date-picker
-            class="input-box"
-            type="date"
-            placeholder="选择日期"
-            v-model="form.date2"
-            style="width: 90%"
-          ></el-date-picker>
+        <el-col :span="11" prop="date2">
+          <el-form-item prop="date2">
+            <el-date-picker
+              class="input-box"
+              type="date"
+              placeholder="选择日期"
+              v-model="form.date2"
+              style="width: 90%"
+            ></el-date-picker>
+          </el-form-item>
         </el-col>
       </el-form-item>
 
-      <el-form-item label="礼品类型">
+      <el-form-item label="礼品类型" prop="awardType">
         <el-radio-group v-model="form.awardType">
           <el-radio label="实物礼品"></el-radio>
           <el-radio label="虚拟礼品"></el-radio>
@@ -131,7 +135,7 @@
         ></el-input>
       </el-form-item>
 
-      <el-form-item label="适用等级">
+      <el-form-item label="适用等级" prop="levels">
         <el-checkbox-group v-model="form.levels">
           <el-checkbox label="体验会员" name="levels"></el-checkbox>
           <el-checkbox label="爱美会员" name="levels"></el-checkbox>
@@ -279,7 +283,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">保存</el-button>
+        <el-button type="primary" @click="onSubmit()">保存</el-button>
         <el-button @click="dialogFormVisible = false">取消</el-button>
       </el-form-item>
     </el-form>
@@ -327,6 +331,42 @@ export default {
         // dialogVisible: false,
         // disabled: false,
       },
+      rules: {
+        wechatMpId: [
+          { required: true, message: "请选择公众号", trigger: "change" },
+        ],
+        activityTitle: [
+          { required: true, message: "请输入活动标题", trigger: "blur" },
+          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
+        ],
+        awardType: [
+          { required: true, message: "请选择奖品类型", trigger: "change" },
+        ],
+        date1: [
+          {
+            type: "date",
+            required: true,
+            message: "请选择日期",
+            trigger: "change",
+          },
+        ],
+        date2: [
+          {
+            type: "date",
+            required: true,
+            message: "请选择时间",
+            trigger: "change",
+          },
+        ],
+        levels: [
+          {
+            type: "array",
+            required: true,
+            message: "请至少选择一个活动性质",
+            trigger: "change",
+          },
+        ],
+      },
     };
   },
 
@@ -359,10 +399,12 @@ export default {
       }).then((response) => {
         console.log(response);
         if (response.code != 200) {
-          alert("保存成功");
+          alert("保存失败");
+
           // console.log(response);
         } else {
           console.log(response.msg);
+          alert("保存成功");
         }
       });
     },

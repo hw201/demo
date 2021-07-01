@@ -272,7 +272,7 @@ table {
   text-align: center;
   position: relative;
   top: 2px;
-  width: 1200px;
+  width: 1440px;
   margin: 10px 20px;
   border-collapse: collapse;
   border: 1px solid rgb(232, 232, 232);
@@ -309,7 +309,7 @@ th {
 }
 .one {
   float: left;
-  margin-right: 80px;
+  margin-right: 200px;
   width: 243px;
   text-align: right;
 }
@@ -323,18 +323,18 @@ th {
 }
 .tb {
   height: 70px;
-  width: 1100px;
+  width: 1400px;
   padding: 10px 10px;
 }
 
 .btn {
   padding: 10px 0px;
+  position: relative;
+  margin: 0 auto;
 }
-.allbtn {
-  text-align: center;
-}
+
 button {
-  margin-right: 50px;
+  margin-right: 100px;
 }
 .chong {
   background-color: #fff;

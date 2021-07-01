@@ -14,9 +14,9 @@ export default {
 .showing {
   background-color: white;
   width: 1200px;
-  height: 679px;
-  position: relative;
+  height: 700px;
+  position: absolute;
   left: 219px;
-  top: -775px;
+  top: 0px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100vh">
+  <div style="height: 768px" class="outdiv">
     <el-scrollbar style="height: 100%">
       <el-row class="tac">
         <el-col :span="12">
@@ -134,6 +134,11 @@ export default {
 </script>
 
 <style scoped>
+/deep/.el-scrollbar .el-scrollbar__wrap {
+  overflow-x: hidden;
+}
+.outdiv {
+}
 .sou {
   position: absolute;
   left: 300px;
@@ -144,7 +149,7 @@ export default {
   background-color: rgb(49, 49, 44);
 
   width: 220px;
-  height: 100vh;
+  height: 1000px;
 }
 .bor {
   border-bottom: 1px solid white;

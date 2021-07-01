@@ -28,9 +28,8 @@ export default {
 
 <style scoped>
 .tabb {
-  width: 1300px;
+  width: 1485px;
   height: 75px;
-
   background-color: rgb(245, 247, 250);
 }
 

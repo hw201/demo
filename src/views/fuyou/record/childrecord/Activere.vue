@@ -300,7 +300,7 @@ export default {
 }
 .one {
   float: left;
-  margin-right: 150px;
+
   width: 228px;
   text-align: right;
 }
@@ -316,7 +316,7 @@ export default {
 .btn {
   padding: 40px 0px;
   position: relative;
-  left: -150px;
+  margin: 0 auto;
 }
 .allbtn {
   text-align: center;

@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <carte-menu />
-
     <keep-alive>
       <router-view />
     </keep-alive>
