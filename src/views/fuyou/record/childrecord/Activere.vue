@@ -1,79 +1,133 @@
 <template>
   <div class="caidan">
-    <el-form
-      :inline="true"
-      :model="formInline"
-      class="demo-form-inline"
-      ref="ruleForm"
-    >
-      <div class="tb">
-        <div class="one">
-          <el-form-item label="公众号" prop="wechatMpId">
-            <el-select
-              v-model="formInline.wechatMpId"
-              placeholder="请选择"
-              class="inputs"
-            >
-              <el-option label="丸美" value="1"></el-option>
-              <el-option label="春纪" value="2"></el-option>
-            </el-select>
-          </el-form-item>
+    <div class="caidan">
+      <el-form
+        :inline="true"
+        :model="formInline"
+        class="demo-form-inline"
+        style="margin: 10px 0px"
+      >
+        <div class="tb">
+          <div class="one">
+            <el-form-item label="公众号">
+              <el-select
+                v-model="formInline.region"
+                placeholder="丸美"
+                class="inputs"
+              >
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+
+          <div class="one">
+            <el-form-item label="注册手机号">
+              <el-input
+                v-model="formInline.user"
+                placeholder="单行输入"
+                class="inputs"
+              ></el-input>
+            </el-form-item>
+          </div>
+
+          <div class="one">
+            <el-form-item label="活动名称">
+              <el-input
+                v-model="formInline.user"
+                placeholder="请输入"
+                class="inputs"
+              ></el-input>
+            </el-form-item>
+          </div>
         </div>
 
-        <div class="one">
-          <el-form-item label="活动标题" prop="activityTitle">
-            <el-input
-              v-model="formInline.activityTitle"
-              placeholder="单行输入"
-              class="inputs"
-            ></el-input>
-          </el-form-item>
+        <div class="tb">
+          <div class="one">
+            <el-form-item label="申领次数">
+              <el-input
+                v-model="formInline.user"
+                placeholder="单行输入"
+                class="inputs"
+              ></el-input>
+            </el-form-item>
+          </div>
+
+          <div class="one">
+            <el-form-item label="订单状态">
+              <el-select v-model="formInline.active" class="inputs">
+                <el-option label="进行中" value="comeon"></el-option>
+                <el-option label="未开始" value="nogo"></el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+
+          <div class="one">
+            <el-form-item label="申请时间">
+              <el-input v-model="formInline.user" class="inputs"></el-input>
+            </el-form-item>
+          </div>
         </div>
 
-        <div class="one">
-          <el-form-item label="礼品类型" prop="awardType">
-            <el-select v-model="formInline.awardType" placeholder="请选择礼品">
-              <el-option label="实物" value="1"></el-option>
-              <el-option label="虚拟" value="2"></el-option>
-            </el-select>
+        <div class="tb">
+          <div class="one">
+            <el-form-item label="审核状态">
+              <el-select v-model="formInline.active" class="inputs">
+                <el-option label="进行中" value="comeon"></el-option>
+                <el-option label="未开始" value="nogo"></el-option>
+              </el-select>
+            </el-form-item>
+          </div>
+        </div>
+
+        <div class="allbtn">
+          <el-form-item class="btn">
+            <el-button type="primary" @click="onSubmit">查询</el-button>
+            <el-button type="primary" class="chong">重置</el-button>
           </el-form-item>
         </div>
-      </div>
+      </el-form>
 
-      <div class="tb">
-        <div class="one">
-          <el-form-item label="活动状态" prop="awardName">
-            <el-select v-model="formInline.awardName">
-              <el-option label="进行中" value="进行中"></el-option>
-              <el-option label="未开始" value="未开始"></el-option>
-            </el-select>
-          </el-form-item>
-        </div>
-      </div>
-
-      <div class="allbtn">
-        <el-form-item class="btn">
-          <el-button type="primary" @click="onSubmit" class="cx"
-            >查询</el-button
+      <div class="xinjian">
+        <el-row>
+          <el-button type="primary" @click="modal1 = true"
+            >导入发货运单号</el-button
           >
-          <el-button class="chong" @click="resetForm">重置</el-button>
-        </el-form-item>
-      </div>
-    </el-form>
+          <Modal
+            v-model="modal1"
+            title="导入订单号"
+            @on-ok="ok"
+            @on-cancel="cancel"
+          >
+            <div class="ips">
+              <input type="text" placeholder="请输入" />
+              <input type="file" id="files" />
+            </div>
+          </Modal>
 
-    <div class="xinjian">
-      <el-row>
-        <el-button type="primary" class="newj" @click="newj">新建</el-button>
-        <el-button type="primary" class="cx">导出</el-button>
-      </el-row>
+          <el-button type="primary" class="out">导出</el-button>
+          <el-button type="primary" @click="open">审核</el-button>
+
+          <el-button type="primary" @click="modal2 = true" class="out"
+            >发货</el-button
+          >
+          <Modal
+            v-model="modal2"
+            title="订单发货"
+            @on-ok="ok"
+            @on-cancel="cancel"
+          >
+            <div class="ips">
+              <p>物流公司:<input type="text" placeholder="请输入" /></p>
+              <p>物流单号:<input type="text" placeholder="请输入" /></p>
+            </div>
+          </Modal>
+        </el-row>
+      </div>
     </div>
 
     <div class="atable">
-      <table
-        :data="
-          userDatas.slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
-        "
-      >
+      <table>
         <tr>
           <th>序号</th>
           <th>公众号</th>
@@ -105,8 +159,8 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="pageIndex"
-        :page-sizes="[10, 20, 30, 40]"
+        :current-page="currentPage"
+        :page-sizes="[10]"
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
@@ -137,13 +191,11 @@ export default {
         awardType: "",
         awardName: "",
       },
-      //  currentPage: 1, //当前页码
-      pageIndex: 1, //当前页码
-      userDatas: [], //后台返回数据
+      userDatas: [], //保存数据
       total: 0, //数据总条数
-      pageSize: 10, //加了mounted就默认显示~条
-      // pageIndex: 1, //当前页数数据
-      // pageSizes: [10, 20, 30, 40],
+      pageSize: 10, //每次显示10条
+      // pageIndex: 1,
+      currentPage: 1, //当前页
     };
   },
 
@@ -151,25 +203,21 @@ export default {
     resetForm() {
       this.$refs["ruleForm"].resetFields();
     },
-    handleSizeChange(val) {
+    handleSizeChange: function (val) {
       console.log(`每页 ${val} 条`);
-      // this.pageIndex = val;
-      this.PageSize = val;
-      // 注意：在改变每页显示的条数时，要将页码显示到第一页
-      this.pageIndex = 1;
-      this.onSubmit();
+      this.pageSize = val;
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-      this.pageIndex = val;
-      // this.pageIndex = val;
-      this.onSubmit();
+      this.currentPage = val;
     },
 
     btn() {
       this.$router.push("/childprofile");
     },
-
+    handleClick(row) {
+      this.$router.push("/detail");
+    },
     onSubmit() {
       // let formData = new FormData();
       // for (let key in this.form) {
@@ -181,9 +229,6 @@ export default {
         activityTitle: this.formInline.activityTitle,
         awardType: this.formInline.awardType,
         awardName: this.formInline.awardName,
-        pageIndex: this.pageIndex,
-        pageSize: this.pageSize,
-        // total: this.total,
       };
       this.axios({
         method: "post",
@@ -198,13 +243,10 @@ export default {
         if (response.data.code != 200) {
           console.log(response.data.msg);
         } else {
-          console.log(response);
           this.userDatas = response.data.data; //后端返回数据，保存数据
-
           this.total = response.data.total; //总数据
-
-          this.pageIndex = response.pageIndex;
-          this.pageSize = response.pageSize;
+          // this.pageIndex = response.data.pageIndex;
+          // this.pageSize = response.data.pageSize;
           this.userDatas.map(function (val) {
             if (val.wechatMpId === 1) {
               val.wechatMpId = "丸美";
@@ -230,21 +272,21 @@ export default {
       });
     },
 
+    reset() {
+      this.$refs.loginref.resetFields();
+    },
+
     newj() {
       this.$router.push("/child");
     },
   },
-  // mounted() {
-  //   //默认页面显示
-  //   this.onSubmit();
-  // },
 };
 </script>
 
 <style scoped>
 /deep/.el-button--primary:focus,
 .el-button--primary:hover {
-  /* background: none; */
+  background: none;
   color: black;
   /* border-color: #66b1ff; */
 }

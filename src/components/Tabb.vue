@@ -3,15 +3,12 @@
     <div class="tabtop"><span>首页×</span><span>营销中心×</span></div>
     <div class="tabtop">
       <span>营销中心</span><span>{{ msg }}</span>
-    
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
-  
   name: "Tabb",
   data() {
     return {
@@ -19,7 +16,6 @@ export default {
       tab0: true,
       tab1: true,
       tab2: true,
-
     };
   },
   methods: {
@@ -32,7 +28,7 @@ export default {
 
 <style scoped>
 .tabb {
-  width: 1480px;
+  width: 1300px;
   height: 75px;
 
   background-color: rgb(245, 247, 250);

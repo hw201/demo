@@ -71,7 +71,10 @@
     <div class="atable">
       <table
         :data="
-          userDatas.slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+          userDatas.slice(
+            (currentPage - 1) * pageIndex,
+            currentPage * pageIndex
+          )
         "
       >
         <tr>
@@ -105,9 +108,8 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page="pageIndex"
-        :page-sizes="[10, 20, 30, 40]"
-        :page-size="pageSize"
+        :current-page="currentPage"
+        :page-sizes="[10]"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       >
@@ -137,16 +139,18 @@ export default {
         awardType: "",
         awardName: "",
       },
-      //  currentPage: 1, //当前页码
-      pageIndex: 1, //当前页码
-      userDatas: [], //后台返回数据
-      total: 0, //数据总条数
+      currentPage: 1, //当前页码
+      userDatas: [], //保存数据
+      total: 1, //数据总条数
       pageSize: 10, //加了mounted就默认显示~条
-      // pageIndex: 1, //当前页数数据
-      // pageSizes: [10, 20, 30, 40],
+      pageIndex: 1, //当前页数数据
     };
   },
-
+  computed: {
+    // pageIndex() {
+    //   return (pageIndex += 1);
+    // },
+  },
   methods: {
     resetForm() {
       this.$refs["ruleForm"].resetFields();
@@ -156,14 +160,12 @@ export default {
       // this.pageIndex = val;
       this.PageSize = val;
       // 注意：在改变每页显示的条数时，要将页码显示到第一页
-      this.pageIndex = 1;
-      this.onSubmit();
+      // this.currentPage = 1;
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-      this.pageIndex = val;
+      this.currentPage = val;
       // this.pageIndex = val;
-      this.onSubmit();
     },
 
     btn() {
@@ -183,7 +185,7 @@ export default {
         awardName: this.formInline.awardName,
         pageIndex: this.pageIndex,
         pageSize: this.pageSize,
-        // total: this.total,
+        total: this.total,
       };
       this.axios({
         method: "post",
@@ -244,7 +246,7 @@ export default {
 <style scoped>
 /deep/.el-button--primary:focus,
 .el-button--primary:hover {
-  /* background: none; */
+  background: none;
   color: black;
   /* border-color: #66b1ff; */
 }

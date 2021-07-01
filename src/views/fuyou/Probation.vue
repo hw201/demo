@@ -1,9 +1,10 @@
 <template>
   <showing>
     <tabb />
+
     <homepage />
     <!-- <tabulation /> -->
-    <paging />
+    <!-- <paging /> -->
   </showing>
 </template>
 

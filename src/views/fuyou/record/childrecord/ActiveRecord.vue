@@ -5,25 +5,26 @@
       :model="formInline"
       class="demo-form-inline"
       style="margin: 10px 0px"
+      ref="ruleForm"
     >
       <div class="tb">
         <div class="one">
-          <el-form-item label="公众号">
+          <el-form-item label="公众号" prop="wechatMpId">
             <el-select
-              v-model="formInline.region"
+              v-model="formInline.wechatMpId"
               placeholder="丸美"
               class="inputs"
             >
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
+              <el-option label="丸美" value="1"></el-option>
+              <el-option label="春纪" value="2"></el-option>
             </el-select>
           </el-form-item>
         </div>
 
         <div class="one">
-          <el-form-item label="注册手机号">
+          <el-form-item label="注册手机号" prop="phone">
             <el-input
-              v-model="formInline.user"
+              v-model="formInline.phone"
               placeholder="单行输入"
               class="inputs"
             ></el-input>
@@ -31,9 +32,9 @@
         </div>
 
         <div class="one">
-          <el-form-item label="活动名称">
+          <el-form-item label="活动名称" prop="designation">
             <el-input
-              v-model="formInline.user"
+              v-model="formInline.designation"
               placeholder="请输入"
               class="inputs"
             ></el-input>
@@ -43,9 +44,9 @@
 
       <div class="tb">
         <div class="one">
-          <el-form-item label="申领次数">
+          <el-form-item label="申领次数" prop="medal">
             <el-input
-              v-model="formInline.user"
+              v-model="formInline.medal"
               placeholder="单行输入"
               class="inputs"
             ></el-input>
@@ -53,27 +54,30 @@
         </div>
 
         <div class="one">
-          <el-form-item label="订单状态">
-            <el-select v-model="formInline.active" class="inputs">
-              <el-option label="进行中" value="comeon"></el-option>
-              <el-option label="未开始" value="nogo"></el-option>
+          <el-form-item label="订单状态" prop="indent">
+            <el-select v-model="formInline.indent" class="inputs">
+              <el-option label="已发货" value="1"></el-option>
+              <el-option label="已完成" value="2"></el-option>
             </el-select>
           </el-form-item>
         </div>
 
         <div class="one">
-          <el-form-item label="申请时间">
-            <el-input v-model="formInline.user" class="inputs"></el-input>
+          <el-form-item label="申请时间" prop="ApplicationDate">
+            <el-input
+              v-model="formInline.ApplicationDate"
+              class="inputs"
+            ></el-input>
           </el-form-item>
         </div>
       </div>
 
       <div class="tb">
         <div class="one">
-          <el-form-item label="审核状态">
-            <el-select v-model="formInline.active" class="inputs">
-              <el-option label="进行中" value="comeon"></el-option>
-              <el-option label="未开始" value="nogo"></el-option>
+          <el-form-item label="审核状态" prop="audit">
+            <el-select v-model="formInline.audit" class="inputs">
+              <el-option label="通过" value="true"></el-option>
+              <el-option label="未通过" value="false"></el-option>
             </el-select>
           </el-form-item>
         </div>
@@ -82,7 +86,9 @@
       <div class="allbtn">
         <el-form-item class="btn">
           <el-button type="primary" @click="onSubmit">查询</el-button>
-          <el-button type="primary" class="chong">重置</el-button>
+          <el-button type="primary" class="chong" @click="resetForm"
+            >重置</el-button
+          >
         </el-form-item>
       </div>
     </el-form>
@@ -123,6 +129,51 @@
         </Modal>
       </el-row>
     </div>
+    <div class="atable">
+      <table>
+        <tr>
+          <th>序号</th>
+          <th>订单编号</th>
+          <th>公众号</th>
+          <th>活动名称</th>
+          <th>会员昵称</th>
+          <th>会员等级</th>
+          <th>注册手机号</th>
+          <th>礼品类型</th>
+          <th>礼品名称</th>
+          <th>礼品编码/券ID</th>
+          <th>申领数量</th>
+        </tr>
+        <tr v-for="(item, index) of userDatas" :key="index">
+          <td>{{ index + 1 }}</td>
+          <td>{{ item.serialNumber }}</td>
+          <td>{{ item.wechatMpId }}</td>
+          <td>{{ item.designation }}</td>
+          <td>{{ item.nickname }}</td>
+          <td>{{ item.member }}</td>
+          <td>{{ item.phone }}</td>
+
+          <td>{{ item.awardType }}</td>
+          <td>{{ item.awardName }}</td>
+
+          <td>{{ item.coding }}</td>
+          <td>{{ item.medal }}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="block">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[10]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -135,57 +186,42 @@ export default {
     return {
       modal1: false,
       modal2: false,
-      labelPosition: "right",
-      formLabelAlign: {
-        name: "",
-        region: "",
-        type: "",
-      },
-      formInline: {
-        user: "",
-        region: "",
-        active: "",
-        gift: "",
+
+      ruleForm: {
+        //重置
+        wechatMpId: "",
+        phone: "",
+        designation: "",
+        medal: "",
+        indent: "",
+        ApplicationDate: "",
+        audit: "",
       },
 
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1518 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1517 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1519 弄",
-          zip: 200333,
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-          province: "上海",
-          city: "普陀区",
-          address: "上海市普陀区金沙江路 1516 弄",
-          zip: 200333,
-        },
-      ],
+      formInline: {
+        wechatMpId: "",
+        phone: "",
+        designation: "",
+        medal: "",
+        indent: "",
+        ApplicationDate: "",
+        audit: "",
+      },
     };
   },
 
   methods: {
+    resetForm() {
+      this.$refs["ruleForm"].resetFields();
+    },
+    handleSizeChange: function (val) {
+      console.log(`每页 ${val} 条`);
+      this.pageSize = val;
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage = val;
+    },
     open() {
       this.$confirm("请确认是否审核通过", "审核提示", {
         confirmButtonText: "确定",
@@ -205,7 +241,9 @@ export default {
           });
         });
     },
-    onSubmit() {},
+    onSubmit() {
+      let params = {};
+    },
     handleClick(row) {
       console.log(row);
     },
@@ -224,6 +262,30 @@ export default {
 </script>
 
 <style scoped>
+.block {
+  position: absolute;
+  padding: 0px 270px;
+  bottom: -38px;
+  text-align: center;
+}
+table {
+  text-align: center;
+  position: relative;
+  top: 2px;
+  width: 1200px;
+  margin: 10px 20px;
+  border-collapse: collapse;
+  border: 1px solid rgb(232, 232, 232);
+}
+th,
+td {
+  height: 35px;
+  text-align: center;
+  border: 0.9px solid rgb(172, 169, 169);
+}
+th {
+  background-color: rgb(232, 232, 232);
+}
 .out {
   background-color: #fff;
   color: rgb(64, 151, 255);
@@ -264,7 +326,6 @@ export default {
   width: 1100px;
   padding: 10px 10px;
 }
-
 
 .btn {
   padding: 10px 0px;
