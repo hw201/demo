@@ -1,20 +1,22 @@
 <template>
   <el-scrollbar style="height: 690px">
-    <el-form ref="form" :model="form" label-width="150px">
-      <el-form-item label="公众号">
+    <el-form ref="form" :model="form" :rules="rules" label-width="150px">
+      <el-form-item label="公众号" prop="wechatMpId">
         <el-select
           v-model="form.wechatMpId"
           placeholder="请选择公众号"
           class="input-box"
-          style="width: 40%"
+          style="width: 20%"
+          id="wechatMpId"
         >
           <el-option label="丸美" value="1"></el-option>
           <el-option label="春纪丸美" value="2"></el-option>
         </el-select>
       </el-form-item>
 
-      <el-form-item label="活动标题">
+      <el-form-item label="活动标题" prop="activityTitle">
         <el-input
+          id="activityTitle"
           class="input-box"
           v-model="form.activityTitle"
           placeholder="请输入活动标题"
@@ -24,66 +26,41 @@
 
       <!-- <el-form-item label="封面图/列表缩略图">
         <el-upload
-          action="#"
-          list-type="picture-card"
-          :auto-upload="false"
-          class="input-box"
+          class="upload-demo"
+          action="http://jsonplaceholder.typicode.com/posts/"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          list-type="picture"
         >
-          <i slot="default" class="el-icon-plus"></i>
-          <div slot="file" slot-scope="{ file }">
-            <img
-              class="el-upload-list__item-thumbnail"
-              :src="file.url"
-              alt=""
-            />
-            <span class="el-upload-list__item-actions">
-              <span
-                class="el-upload-list__item-preview"
-                @click="handlePictureCardPreview(file)"
-              >
-                <i class="el-icon-zoom-in"></i>
-              </span>
-              <span
-                v-if="!disabled"
-                class="el-upload-list__item-delete"
-                @click="handleDownload(file)"
-              >
-                <i class="el-icon-download"></i>
-              </span>
-              <span
-                v-if="!disabled"
-                class="el-upload-list__item-delete"
-                @click="handleRemove(file)"
-              >
-                <i class="el-icon-delete"></i>
-              </span>
-            </span>
-          </div>
+          <el-button size="small" type="primary">点击上传</el-button>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt="" />
-        </el-dialog>
       </el-form-item> -->
 
       <el-form-item label="活动时间">
         <el-col :span="11">
-          <el-date-picker
-            class="input-box"
-            type="date"
-            placeholder="选择日期"
-            v-model="form.date1"
-            style="width: 90%"
-          ></el-date-picker>
+          <el-form-item prop="date1">
+            <el-date-picker
+              id="date1"
+              class="input-box"
+              type="date"
+              placeholder="选择日期"
+              v-model="form.date1"
+              style="width: 90%"
+            ></el-date-picker>
+          </el-form-item>
         </el-col>
         <el-col class="line" :span="2"> -</el-col>
         <el-col :span="11">
-          <el-date-picker
-            class="input-box"
-            type="date"
-            placeholder="选择日期"
-            v-model="form.date2"
-            style="width: 90%"
-          ></el-date-picker>
+          <el-form-item prop="date2">
+            <el-date-picker
+              id="date2"
+              class="input-box"
+              type="date"
+              placeholder="选择日期"
+              v-model="form.date2"
+              style="width: 90%"
+            ></el-date-picker>
+          </el-form-item>
         </el-col>
       </el-form-item>
 
@@ -95,14 +72,16 @@
       </el-form-item>
 
       <el-form-item label="是否主推商品">
-        <el-radio-group v-model="form.mainProduct">
+        <el-radio-group v-model="form.mainProduct" id="mainProduct">
           <el-radio label="true">是</el-radio>
           <el-radio label="false">否</el-radio>
         </el-radio-group>
       </el-form-item>
 
-      <el-form-item label="申请总数量">
+      <el-form-item label="申请总数量" prop="nums">
         <el-input
+          id="nums
+        "
           class="input-box"
           v-model="form.nums"
           placeholder="请输入数量"
@@ -111,8 +90,12 @@
         ></el-input>
       </el-form-item>
 
-      <el-form-item label="所需积分">
+      <el-form-item label="所需积分" prop="costPoint">
         <el-input
+          id="
+costPoint
+
+        "
           class="input-box"
           v-model="form.costPoint"
           placeholder="请输入积分"
@@ -121,8 +104,10 @@
         ></el-input>
       </el-form-item>
 
-      <el-form-item label="所需金额">
+      <el-form-item label="所需金额" prop="costMoney">
         <el-input
+          id="
+costMoney "
           class="input-box"
           v-model="form.costMoney"
           placeholder="请输入金额"
@@ -201,8 +186,9 @@
         </el-col>
       </el-form-item>
 
-      <el-form-item label="发货后赠送优惠券">
+      <el-form-item label="发货后赠送优惠券" prop="coupon">
         <el-input
+          id="coupon"
           class="input-box"
           v-model="form.coupon"
           placeholder="请输入优惠券ID"
@@ -219,7 +205,7 @@
 
       <!-- <el-form-item label="分享图片">
         <el-upload
-          action="#"
+          action=""
           list-type="picture-card"
           :auto-upload="false"
           class="input-box"
@@ -279,7 +265,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">保存</el-button>
+        <el-button type="primary" @click.prevent="onSubmit">保存</el-button>
         <el-button @click="dialogFormVisible = false">取消</el-button>
       </el-form-item>
     </el-form>
@@ -290,48 +276,142 @@ export default {
   name: "Make",
   data() {
     return {
+      response: [],
       dialogFormVisible: false,
       form: {
-        // name: "",活动标题
         activityTitle: "",
-
-        // integral: "",所需积分
         costPoint: "",
-
-        // moeny: "",所需金额
         costMoney: "",
         nums: "",
         coupon: "",
         part: "",
         headline: "",
-        // region: "",公众号id
         wechatMpId: "",
-
         vip: "",
         day: "",
-        // gift: "",奖品类型
         awardType: "",
-
         date1: "",
         date2: "",
         date3: "",
         date4: "",
         delivery: false,
-        // type: [],限制等级
         levels: [],
         resource: "",
         desc: "",
-        // sure: "",是否主推
         mainProduct: "",
-        // dialogImageUrl: "",
-        // dialogVisible: false,
-        // disabled: false,
+        dialogImageUrl: "",
+        dialogVisible: false,
+        disabled: false,
+      },
+      rules: {
+        wechatMpId: [
+          { required: true, message: "请选择公众号", trigger: "change" },
+        ],
+        activityTitle: [
+          { required: true, message: "请输入活动标题", trigger: "blur" },
+          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
+        ],
+
+        date1: [
+          {
+            type: "date",
+            required: true,
+            message: "请选择日期",
+            trigger: "change",
+          },
+        ],
+        date2: [
+          {
+            type: "date",
+            required: true,
+            message: "请选择日期",
+            trigger: "change",
+          },
+        ],
+        nums: [
+          {
+            required: true,
+            message: "请输入申请数量",
+            trigger: "change",
+          },
+        ],
+        costPoint: [
+          {
+            required: true,
+            message: "请输入积分",
+            trigger: "change",
+          },
+        ],
+        costMoney: [
+          {
+            required: true,
+            message: "请填写金额",
+            trigger: "change",
+          },
+        ],
+        coupon: [
+          {
+            required: true,
+            message: "请写优惠券",
+            trigger: "change",
+          },
+        ],
       },
     };
   },
 
   methods: {
     onSubmit() {
+      const {
+        wechatMpId,
+        activityTitle,
+        date1,
+        date2,
+        nums,
+        costPoint,
+        costMoney,
+        coupon,
+      } = this.form;
+      if (
+        wechatMpId &&
+        activityTitle &&
+        date1 &&
+        date2 &&
+        nums &&
+        costPoint &&
+        costMoney &&
+        coupon
+      ) {
+        //执行校验成功的相关操作
+      } else {
+        this.$refs["form"].validateField([
+          "wechatMpId",
+          "activityTitle",
+          "date1",
+          "date2",
+          "nums",
+          "costPoint",
+          "costMoney",
+          "coupon",
+        ]);
+        return false;
+      }
+
+      //方法二弹窗
+      // let wechatMpId = document.getElementById("wechatMpId").value;
+      // if (wechatMpId == "" || wechatMpId == null) {
+      //   alert("请选择公众号!");
+      //   return false;
+      // }
+      // let activityTitle = document.getElementById("activityTitle").value;
+      // if (activityTitle == "" || activityTitle == null) {
+      //   alert("标题不能为空!");
+      //   return false;
+      // } else if (activityTitle.length < 3 || activityTitle.length > 5) {
+      //   alert("标题在 3 到 5 个字之间!");
+      //   return false;
+      // }
+
       this.dialogFormVisible = false;
       // let formData = new FormData();
       // for (let key in this.form) {
@@ -357,7 +437,7 @@ export default {
         withCredentials: true,
         data: params,
       }).then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.code != 200) {
           alert("保存成功");
           // console.log(response);
@@ -366,6 +446,10 @@ export default {
         }
       });
     },
+  },
+
+  handlePreview(file) {
+    console.log(file);
   },
 
   handleRemove(file) {
@@ -387,7 +471,6 @@ export default {
 }
 .input-box input {
   height: 30px;
-  line-height: 30px;
 }
 .input-box {
   width: 20%;

@@ -87,12 +87,12 @@
               </el-menu-item-group>
             </el-submenu>
 
-            <el-submenu index="7">
-              <template slot="title">
-                <span>内容管理</span>
-              </template>
-              <el-menu-item index="6-1">广告位管理</el-menu-item>
-            </el-submenu>
+            <el-menu-item-group>
+              <el-submenu index="7">
+                <template slot="title">内容管理</template>
+                <el-menu-item index="/poster">广告位管理</el-menu-item>
+              </el-submenu>
+            </el-menu-item-group>
 
             <el-menu-item index="/hufu">
               <span slot="title">基础管理</span>

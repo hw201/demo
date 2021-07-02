@@ -19,7 +19,7 @@ const Task = () => import('@/views/meiri/Task.vue')
 const Poster = () => import('@/views/poster/Poster.vue')
 const Nproject = () => import('@/views/fuyou/child/Nproject.vue')
 const Record = () => import('@/views/fuyou/record/Record.vue')
-// const TableDetail = () => import('@/views/fuyou/detail/TableDetail.vue')
+
 const EditProfile = () => import('@/views/fuyou/record/childrecord/childprofile/EditProfile.vue')
 
 
@@ -33,9 +33,7 @@ const routes = [
     path: '/fuyou',
 
     component: Probation,
-    children: [
 
-    ]
   },
 
   {
@@ -50,16 +48,10 @@ const routes = [
   {
     path: '/record',
     component: Record,
-    // children: [
 
-    // ]
   },
 
 
-  // {
-  //   path: '/detail',
-  //   component: TableDetail,
-  // },
   {
     path: '/koubei',
     component: Profile

@@ -1,441 +1,174 @@
-<template>
-  <el-scrollbar style="height: 690px">
-    <el-form ref="form" :model="form" :rules="rules" label-width="150px">
-      <el-form-item label="公众号" prop="wechatMpId">
-        <el-select
-          v-model="form.wechatMpId"
-          placeholder="请选择公众号"
-          class="input-box"
-          style="width: 40%"
-        >
-          <el-option label="丸美" value="1"></el-option>
-          <el-option label="春纪丸美" value="2"></el-option>
-        </el-select>
-      </el-form-item>
+<div class="container">
+        <div class="col-md-12 content-center">
+            <div id="signUp" class="card-plain">
+                <form class="form" method="post" th:action="@{/stu/register}">
+                    <div class="header">
+                        <div class="logo-container">
+                            <img th:src="@{/assets/images/logo.svg}" alt="">
+                        </div>
+                        <h5>注册</h5>
+                        <!-- <span>Register a new membership</span> -->
+                    </div>
+                    <div class="content">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="请输入学生号" name="id" v-model="id">
+                            <span class="input-group-addon">
+                                <i class="zmdi zmdi-account-circle"></i>
+                            </span>
+                        </div>
+                        <div style="color: #ff7878" v-model="text1">{{text1}}</div>
 
-      <el-form-item label="活动标题" prop="activityTitle">
-        <el-input
-          class="input-box"
-          v-model="form.activityTitle"
-          placeholder="请输入活动标题"
-          style="width: 50%"
-        ></el-input>
-      </el-form-item>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="请输入用户名" name="username" v-model="username">
+                            <span class="input-group-addon">
+                                <i class="zmdi zmdi-account-circle"></i>
+                            </span>
+                        </div>
+                        <div style="color: #ff7878" v-model="text2">{{text2}}</div>
 
-      <!-- <el-form-item label="封面图/列表缩略图">
-        <el-upload
-          action="#"
-          list-type="picture-card"
-          :auto-upload="false"
-          class="input-box"
-        >
-          <i slot="default" class="el-icon-plus"></i>
-          <div slot="file" slot-scope="{ file }">
-            <img
-              class="el-upload-list__item-thumbnail"
-              :src="file.url"
-              alt=""
-            />
-            <span class="el-upload-list__item-actions">
-              <span
-                class="el-upload-list__item-preview"
-                @click="handlePictureCardPreview(file)"
-              >
-                <i class="el-icon-zoom-in"></i>
-              </span>
-              <span
-                v-if="!disabled"
-                class="el-upload-list__item-delete"
-                @click="handleDownload(file)"
-              >
-                <i class="el-icon-download"></i>
-              </span>
-              <span
-                v-if="!disabled"
-                class="el-upload-list__item-delete"
-                @click="handleRemove(file)"
-              >
-                <i class="el-icon-delete"></i>
-              </span>
-            </span>
-          </div>
-        </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt="" />
-        </el-dialog>
-      </el-form-item> -->
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="请输入邮箱" name="email" v-model="email">
+                            <span class="input-group-addon">
+                                <i class="zmdi zmdi-email"></i>
+                            </span>
+                        </div>
+                        <div style="color: #ff7878" v-model="text3">{{text3}}</div>
 
-      <el-form-item label="活动时间">
-        <el-col :span="11">
-          <el-form-item prop="date1">
-            <el-date-picker
-              class="input-box"
-              type="date"
-              placeholder="选择日期"
-              v-model="form.date1"
-              style="width: 90%"
-            ></el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col class="line" :span="2"> -</el-col>
-        <el-col :span="11" prop="date2">
-          <el-form-item prop="date2">
-            <el-date-picker
-              class="input-box"
-              type="date"
-              placeholder="选择日期"
-              v-model="form.date2"
-              style="width: 90%"
-            ></el-date-picker>
-          </el-form-item>
-        </el-col>
-      </el-form-item>
+                        <div class="input-group">
+                            <input type="password" placeholder="请输入密码" class="form-control" name="password1"  v-model="password1"/>
+                            <span class="input-group-addon">
+                                <i class="zmdi zmdi-lock"></i>
+                            </span>
+                        </div>
+                        <div style="color: #ff7878" v-model="text4">{{text4}}</div>
 
-      <el-form-item label="礼品类型" prop="awardType">
-        <el-radio-group v-model="form.awardType">
-          <el-radio label="实物礼品"></el-radio>
-          <el-radio label="虚拟礼品"></el-radio>
-        </el-radio-group>
-      </el-form-item>
+                        <div class="input-group">
+                            <input type="password" placeholder="重新确认密码" class="form-control" v-model="password2"/>
+                            <span class="input-group-addon">
+                                <i class="zmdi zmdi-lock"></i>
+                            </span>
+                        </div>
+                        <div style="color: #ff7878" v-model="text5">{{text5}}</div>
+                    </div>
 
-      <el-form-item label="是否主推商品">
-        <el-radio-group v-model="form.mainProduct">
-          <el-radio label="true">是</el-radio>
-          <el-radio label="false">否</el-radio>
-        </el-radio-group>
-      </el-form-item>
-
-      <el-form-item label="申请总数量">
-        <el-input
-          class="input-box"
-          v-model="form.nums"
-          placeholder="请输入数量"
-          style="width: 30%"
-          value="0"
-        ></el-input>
-      </el-form-item>
-
-      <el-form-item label="所需积分">
-        <el-input
-          class="input-box"
-          v-model="form.costPoint"
-          placeholder="请输入积分"
-          style="width: 30%"
-          value="0"
-        ></el-input>
-      </el-form-item>
-
-      <el-form-item label="所需金额">
-        <el-input
-          class="input-box"
-          v-model="form.costMoney"
-          placeholder="请输入金额"
-          style="width: 30%"
-          value="0"
-        ></el-input>
-      </el-form-item>
-
-      <el-form-item label="适用等级" prop="levels">
-        <el-checkbox-group v-model="form.levels">
-          <el-checkbox label="体验会员" name="levels"></el-checkbox>
-          <el-checkbox label="爱美会员" name="levels"></el-checkbox>
-          <el-checkbox label="VIP会员" name="levels"></el-checkbox>
-          <el-checkbox label="VVIP会员" name="levels"></el-checkbox>
-        </el-checkbox-group>
-      </el-form-item>
-
-      <el-form-item label="活动标签">
-        <el-tag>活动标签</el-tag>
-      </el-form-item>
-
-      <el-form-item label="显示状态">
-        <el-select
-          v-model="form.vip"
-          placeholder="会员系统显示"
-          class="input-box"
-        >
-          <el-option label="vip" value="vip"></el-option>
-          <el-option label="vvip" value="vvip"></el-option>
-        </el-select>
-      </el-form-item>
-
-      <el-form-item label="活动时间">
-        <el-col :span="11">
-          <el-select
-            class="input-box"
-            v-model="form.day"
-            placeholder="每天"
-            style="width: 90%"
-          >
-            <el-option label="每月" value="month"></el-option>
-          </el-select>
-        </el-col>
-        <el-col class="line" :span="2"> 参与</el-col>
-        <el-col :span="11">
-          <el-input
-            class="input-box"
-            v-model="form.part"
-            placeholder="0"
-            style="width: 70%"
-          ></el-input
-          ><span>0代表无数次</span>
-        </el-col>
-      </el-form-item>
-
-      <el-form-item label="注册时间限制">
-        <el-col :span="11">
-          <el-date-picker
-            class="input-box"
-            type="date"
-            placeholder="选择日期"
-            v-model="form.date3"
-            style="width: 90%"
-          ></el-date-picker>
-        </el-col>
-
-        <el-col class="line" :span="2">至</el-col>
-        <el-col :span="11">
-          <el-date-picker
-            type="date"
-            class="input-box"
-            placeholder="选择日期"
-            v-model="form.date4"
-            style="width: 90%"
-          ></el-date-picker>
-        </el-col>
-      </el-form-item>
-
-      <el-form-item label="发货后赠送优惠券">
-        <el-input
-          class="input-box"
-          v-model="form.coupon"
-          placeholder="请输入优惠券ID"
-          style="width: 70%"
-        ></el-input>
-      </el-form-item>
-
-      <el-form-item label="分享活动">
-        <el-radio-group v-model="form.resource">
-          <el-radio label="是"></el-radio>
-          <el-radio label="否"></el-radio>
-        </el-radio-group>
-      </el-form-item>
-
-      <!-- <el-form-item label="分享图片">
-        <el-upload
-          action="#"
-          list-type="picture-card"
-          :auto-upload="false"
-          class="input-box"
-        >
-          <i slot="default" class="el-icon-plus"></i>
-          <div slot="file" slot-scope="{ file }">
-            <img
-              class="el-upload-list__item-thumbnail"
-              :src="file.url"
-              alt=""
-            />
-            <span class="el-upload-list__item-actions">
-              <span
-                class="el-upload-list__item-preview"
-                @click="handlePictureCardPreview(file)"
-              >
-                <i class="el-icon-zoom-in"></i>
-              </span>
-              <span
-                v-if="!disabled"
-                class="el-upload-list__item-delete"
-                @click="handleDownload(file)"
-              >
-                <i class="el-icon-download"></i>
-              </span>
-              <span
-                v-if="!disabled"
-                class="el-upload-list__item-delete"
-                @click="handleRemove(file)"
-              >
-                <i class="el-icon-delete"></i>
-              </span>
-            </span>
-          </div>
-        </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt="" />
-        </el-dialog>
-      </el-form-item> -->
-
-      <el-form-item label="分享标题">
-        <el-input
-          class="input-box"
-          v-model="form.headline"
-          placeholder="请输入数量"
-          style="width: 40%"
-        ></el-input>
-      </el-form-item>
-
-      <el-form-item label="活动描述">
-        <el-input
-          class="input-box"
-          type="textarea"
-          v-model="form.desc"
-          style="width: 70%"
-        ></el-input>
-      </el-form-item>
-
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit()">保存</el-button>
-        <el-button @click="dialogFormVisible = false">取消</el-button>
-      </el-form-item>
-    </el-form>
-  </el-scrollbar>
-</template>
-<script>
-export default {
-  name: "Make",
-  data() {
-    return {
-      dialogFormVisible: false,
-      form: {
-        // name: "",活动标题
-        activityTitle: "",
-
-        // integral: "",所需积分
-        costPoint: "",
-
-        // moeny: "",所需金额
-        costMoney: "",
-        nums: "",
-        coupon: "",
-        part: "",
-        headline: "",
-        // region: "",公众号id
-        wechatMpId: "",
-
-        vip: "",
-        day: "",
-        // gift: "",奖品类型
-        awardType: "",
-
-        date1: "",
-        date2: "",
-        date3: "",
-        date4: "",
-        delivery: false,
-        // type: [],限制等级
-        levels: [],
-        resource: "",
-        desc: "",
-        // sure: "",是否主推
-        mainProduct: "",
-        // dialogImageUrl: "",
-        // dialogVisible: false,
-        // disabled: false,
-      },
-      rules: {
-        wechatMpId: [
-          { required: true, message: "请选择公众号", trigger: "change" },
-        ],
-        activityTitle: [
-          { required: true, message: "请输入活动标题", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
-        ],
-        awardType: [
-          { required: true, message: "请选择奖品类型", trigger: "change" },
-        ],
-        date1: [
-          {
-            type: "date",
-            required: true,
-            message: "请选择日期",
-            trigger: "change",
-          },
-        ],
-        date2: [
-          {
-            type: "date",
-            required: true,
-            message: "请选择时间",
-            trigger: "change",
-          },
-        ],
-        levels: [
-          {
-            type: "array",
-            required: true,
-            message: "请至少选择一个活动性质",
-            trigger: "change",
-          },
-        ],
-      },
-    };
-  },
-
-  methods: {
-    onSubmit() {
-      this.dialogFormVisible = false;
-      // let formData = new FormData();
-      // for (let key in this.form) {
-      //   formData.append(key, this.form[key]);
-      //   console.log(formData.get(key));
-      // }
-      let params = {
-        wechatMpId: this.form.wechatMpId,
-        activityTitle: this.form.activityTitle,
-        awardType: this.form.awardType,
-        awardName: this.form.awardName,
-        mainProduct: this.form.mainProduct,
-        costPoint: this.form.costPoint,
-        costMoney: this.form.costMoney,
-        // levels: this.form.levels,
-      };
-      this.axios({
-        method: "post",
-        url: "http://localhost:8888/postTrial/save",
-        headers: {
-          "Content-Type": "application/json",
+                    <div class="footer text-center">
+                        <!--注意使用b-button,否则vue不能操作bootstrap-->
+                        <b-button class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" @click="submitForm">SIGN UP</b-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+var app = new Vue({
+        el: "#signUp",
+        data:{
+            flag: 0,
+            id: "",
+            username: "",
+            email: "",
+            password1: "",
+            password2: "",
+            text1: "",
+            text2: "",
+            text3: "",
+            text4: "",
+            text5: "",
+            student: {}
         },
-        withCredentials: true,
-        data: params,
-      }).then((response) => {
-        console.log(response);
-        if (response.code != 200) {
-          alert("保存失败");
+        methods:{
+            submitForm: async function () {
 
-          // console.log(response);
-        } else {
-          console.log(response.msg);
-          alert("保存成功");
+                this.flag = 0;
+//                注意加this,表示vue与页面绑定的对象,以及如何判空
+                if($.isEmptyObject(this.id)){
+                    this.text1 = "学生号不能为空"
+                }else {
+                    this.flag++;
+                    this.text1 = "";
+                }
+
+                if($.isEmptyObject(this.username)){
+                    this.text2 = "用户名不能为空"
+                }else{
+                    this.flag++;
+                    this.text2 = ""
+                }
+
+                if($.isEmptyObject(this.email)){
+                    this.text3 = "邮箱不能为空"
+                }else{
+                    this.flag++;
+                    this.text3 = ""
+                }
+
+                if($.isEmptyObject(this.password1)){
+                    this.text4 = "密码不能为空"
+                }else{
+                    this.flag++;
+                    this.text4 = ""
+                }
+
+                if(!(this.password1 == this.password2)){
+                    this.text5 = "密码输入不正确"
+                }else{
+                    this.flag++
+                    this.text5=""
+                }
+                if(this.flag == 5){
+//                    alert(this.flag)
+
+                    //注意axios的代码位置，避免代码顺序执行时，对象获取不到axios中返回的值
+//                    alert(this.id)
+//                    await axios({
+//                        method:"GET",
+//                        url:"/mheal/stu/stuChecked1?id=" + this.id,
+//                    }).then(function (res) {
+//                        this.student = res.data
+//                    }).catch(function(error){
+//                        console.log(error);
+//                    })
+
+                    _this = this
+                    try{
+                        await axios.get("/mheal/stu/stuChecked1?id=" + this.id)
+                                       .then(res => {
+                                           _this.student = res.data
+                                       })
+                    }catch(err){
+                        console.log(err);
+                        alert("请求出错")
+                    }
+
+                    console.log(this.student)
+
+                    if(!$.isEmptyObject(this.student)){
+                        alert($.isEmptyObject(this.student))
+                        this.text1 = "该学生号已注册"
+                    }else{
+                        alert("注册成功")
+//                      location.href="/mheal/stu/register?"
+//                      post提交表单
+
+                        let formdata = new FormData()
+                        formdata.append("id",this.id)
+                        formdata.append("username",this.username)
+                        formdata.append("password",this.password1)
+                        formdata.append("email",this.email)
+
+                        let config = {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }
+
+                        //异步提交表单，即使有返回页面，也不会实现页面跳转
+                        axios.post('/mheal/stu/register',formdata,config).then(res => {
+                            alert("提交表单")
+                        })
+
+                        location.href="/mheal/stu";
+                    }
+                }
+            }
         }
-      });
-    },
-  },
-
-  handleRemove(file) {
-    console.log(file);
-  },
-  handlePictureCardPreview(file) {
-    this.dialogImageUrl = file.url;
-    this.dialogVisible = true;
-  },
-  handleDownload(file) {
-    console.log(file);
-  },
-};
-</script>
-
-<style>
-.bigbox {
-  height: 760px;
-}
-.input-box input {
-  height: 30px;
-  line-height: 30px;
-}
-.input-box {
-  width: 20%;
-}
-
-.el-scrollbar__wrap {
-  overflow-x: hidden;
-}
-</style>
+    })
