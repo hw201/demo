@@ -308,15 +308,11 @@ td {
   text-align: center;
   border: 0.9px solid rgb(172, 169, 169);
 }
+
 th {
   background-color: rgb(232, 232, 232);
 }
-/* /deep/.el-table__header {
-  width: 100%;
-}
-/deep/.el-table__body {
-  width: 100%;
-} */
+
 .block {
   position: absolute;
   padding: 0px 270px;
