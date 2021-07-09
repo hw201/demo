@@ -10,6 +10,9 @@ VueRouter.prototype.push = function push(location) {
 }
 
 // 导入组件
+const Register = () => import('@/views/Register.vue')
+const Home = () => import('@/components/home/Home.vue')
+
 const Probation = () => import('@/views/fuyou/Probation.vue')
 const Profile = () => import('@/views/koubei/Profile.vue')
 const Spa = () => import('@/views/hufu/Spa.vue')
@@ -26,7 +29,19 @@ const EditProfile = () => import('@/views/fuyou/record/childrecord/childprofile/
 const routes = [
   {
     path: '',
-    redirect: '/fuyou'
+    redirect: '/views'
+  },
+  {
+    path: '/views',
+
+    component: Register,
+
+  },
+  {
+    path: '/home',
+
+    component: Home,
+
   },
 
   {
