@@ -10,6 +10,9 @@ VueRouter.prototype.push = function push(location) {
 }
 
 // 导入组件
+const Register = () => import('@/views/Register.vue')
+const Home = () => import('@/components/home/Home.vue')
+
 const Probation = () => import('@/views/fuyou/Probation.vue')
 const Profile = () => import('@/views/koubei/Profile.vue')
 const Spa = () => import('@/views/hufu/Spa.vue')
@@ -19,23 +22,33 @@ const Task = () => import('@/views/meiri/Task.vue')
 const Poster = () => import('@/views/poster/Poster.vue')
 const Nproject = () => import('@/views/fuyou/child/Nproject.vue')
 const Record = () => import('@/views/fuyou/record/Record.vue')
-const TableDetail = () => import('@/views/fuyou/detail/TableDetail.vue')
+
 const EditProfile = () => import('@/views/fuyou/record/childrecord/childprofile/EditProfile.vue')
 
 
 const routes = [
   {
     path: '',
-    redirect: '/fuyou'
+    redirect: '/views'
+  },
+  {
+    path: '/views',
+
+    component: Register,
+
+  },
+  {
+    path: '/home',
+
+    component: Home,
+
   },
 
   {
     path: '/fuyou',
 
     component: Probation,
-    children: [
 
-    ]
   },
 
   {
@@ -50,16 +63,10 @@ const routes = [
   {
     path: '/record',
     component: Record,
-    // children: [
 
-    // ]
   },
 
 
-  {
-    path: '/detail',
-    component: TableDetail,
-  },
   {
     path: '/koubei',
     component: Profile

@@ -2,8 +2,6 @@
   <showing>
     <tabb />
     <active-record />
-    <tabulation />
-    <paging />
   </showing>
 </template>
 <script>

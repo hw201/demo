@@ -1,11 +1,18 @@
 <template>
-  <div>
-    <h5>哈哈哈哈</h5>
-  </div>
+  <showing>
+    <tabb />
+    <Postermanage />
+  </showing>
 </template>
 
 <script>
+import Showing from "@/components/Showing.vue";
+import Tabb from "@/components/Tabb.vue";
+
+import Postermanage from "./posterchild/Postermanage.vue";
+
 export default {
+  components: { Tabb, Showing, Postermanage },
   name: "Poster",
 };
 </script>

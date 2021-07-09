@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100vh">
+  <div style="height: 768px" class="outdiv">
     <el-scrollbar style="height: 100%">
       <el-row class="tac">
         <el-col :span="12">
@@ -87,12 +87,12 @@
               </el-menu-item-group>
             </el-submenu>
 
-            <el-submenu index="7">
-              <template slot="title">
-                <span>内容管理</span>
-              </template>
-              <el-menu-item index="6-1">广告位管理</el-menu-item>
-            </el-submenu>
+            <el-menu-item-group>
+              <el-submenu index="7">
+                <template slot="title">内容管理</template>
+                <el-menu-item index="/poster">广告位管理</el-menu-item>
+              </el-submenu>
+            </el-menu-item-group>
 
             <el-menu-item index="/hufu">
               <span slot="title">基础管理</span>
@@ -134,6 +134,11 @@ export default {
 </script>
 
 <style scoped>
+/deep/.el-scrollbar .el-scrollbar__wrap {
+  overflow-x: hidden;
+}
+.outdiv {
+}
 .sou {
   position: absolute;
   left: 300px;
@@ -144,7 +149,7 @@ export default {
   background-color: rgb(49, 49, 44);
 
   width: 220px;
-  height: 100vh;
+  height: 1000px;
 }
 .bor {
   border-bottom: 1px solid white;
