@@ -38,9 +38,6 @@
                 auto-complete="off"
                 placeholder="验证码"
               ></el-input>
-              <!-- <div class="code">
-                <span>{{ code }}</span>
-              </div> -->
             </el-form-item>
           </el-col>
           <el-col :span="12" class="code-box">
@@ -138,13 +135,10 @@ export default {
       console.log(res.data);
       // this.data = res.data;
       this.code = res.data.data;
-
-      // this.$router.push("/home");
     });
   },
   methods: {
     submitForm(formName) {
-      // this.$router.push("/home");
       let params = {
         userName: this.ruleForm.userName,
         password: this.ruleForm.password,
