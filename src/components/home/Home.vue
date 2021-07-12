@@ -1,9 +1,10 @@
 <template>
   <div id="app">
     <carte-menu />
-    <keep-alive>
+    <!-- <keep-alive>
       <router-view />
-    </keep-alive>
+    </keep-alive> -->
+    <router-view />
   </div>
 </template>
 

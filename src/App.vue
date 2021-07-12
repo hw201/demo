@@ -1,13 +1,8 @@
 <template>
   <div id="app">
     <register />
-    <keep-alive>
-      <router-view />
-    </keep-alive>
-    <!-- <carte-menu />
-    <keep-alive>
-      <router-view />
-    </keep-alive> -->
+
+    <!-- <router-view /> -->
   </div>
 </template>
 
