@@ -42,7 +42,7 @@
           </el-col>
           <el-col :span="12" class="code-box">
             <div class="code">
-              <span :code="ruleForm.code">{{ code }}</span>
+              <span>{{ code }}</span>
             </div>
           </el-col>
         </el-row>
@@ -59,7 +59,6 @@
               type="primary"
               @click="submitForm('ruleForm')"
               style="width: 100%"
-              :loading="loading"
               >登录</el-button
             >
           </el-form-item>
@@ -69,6 +68,7 @@
   </div>
 </template>
 <script>
+import { getCaptcha } from "@/network/getlogin";
 export default {
   data() {
     let validatePass = (rule, value, callback) => {
@@ -93,7 +93,7 @@ export default {
     };
     return {
       rememberpwd: false, //是否记住密码
-      loading: false,
+      // loading: fasle,
       data: {},
       code: null,
       ruleForm: {
@@ -120,25 +120,49 @@ export default {
     };
   },
   created() {
-    let param = {
-      captcha: this.ruleForm.captcha,
-    };
-    this.axios({
-      method: "get",
-      url: "http://localhost:8888/user/getCaptcha",
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-      },
-      withCredentials: true,
-      data: param,
-    }).then((res) => {
-      console.log(res.data);
-      // this.data = res.data;
-      this.code = res.data.data;
-    });
+    this.getCaptcha();
+
+    // this.axios({
+    //   method: "get",
+    //   url: "http://localhost:8888/user/getCaptcha",
+    //   headers: {
+    //     "Content-Type": "application/json;charset=UTF-8",
+    //   },
+    //   withCredentials: true,
+    //   // data: params,
+    // }).then((result) => {
+    //   console.log(result.data.data);
+    //   //返回验证码
+    //   this.code = result.data.data;
+    // });
   },
+
   methods: {
+    //封装网络
+    getCaptcha() {
+      getCaptcha().then((res) => {
+        console.log(res);
+        this.code = res.data;
+      });
+    },
+    // request() {
+    //   this.axios({
+    //     method: "get",
+    //     url: "http://localhost:8888/user/getCaptcha",
+    //     headers: {
+    //       "Content-Type": "application/json;charset=UTF-8",
+    //     },
+    //     withCredentials: true,
+    //     // data: params,
+    //   }).then((result) => {
+    //     console.log(result.data.data);
+    //     //返回验证码
+    //     this.code = result.data.data;
+    //   });
+    // },
+
     submitForm(formName) {
+      //请求参数
       let params = {
         userName: this.ruleForm.userName,
         password: this.ruleForm.password,
@@ -154,9 +178,10 @@ export default {
         data: params,
       }).then((res) => {
         console.log(res.data);
-
+        //返回登录
         this.data = res.data;
         if (res.data.code == 200) {
+          this.$router.push("/home");
           this.$message({
             message: "登陆成功",
             type: "success",
@@ -164,7 +189,7 @@ export default {
         } else {
           this.$message({
             message: "登录失败,请输入正确账号或密码",
-            type: "reject",
+            type: "error",
           });
         }
       });
@@ -172,6 +197,12 @@ export default {
       //校验
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          //   setTimeout(() => {
+          //   this.$store.commit('login', 'true')
+          //   this.$router.push({ path: '/goods/Goods' })
+          // }, 1000)
+          // alert("提交成功");
+          // this.$router.push("/home");
         } else {
           // console.log("error submit!!");
 
