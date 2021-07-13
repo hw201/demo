@@ -10,7 +10,7 @@ import ViewUI from 'view-design';
 import 'view-design/dist/styles/iview.css';
 // import Routers from './router.js';
 import locale from 'view-design/dist/locale/en-US';
-// import store from './store'
+import store from './store'
 
 Vue.use(ViewUI, { locale });
 
@@ -36,7 +36,7 @@ Vue.config.productionTip = false
 new Vue({
   render: h => h(App),/* render:渲染 */
   router,
-  // store
+  store
 }).$mount('#app')
 
 

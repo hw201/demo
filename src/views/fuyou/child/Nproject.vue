@@ -1,17 +1,21 @@
 <template>
-  <showing>
-    <tabb />
-    <make />
-  </showing>
+  <div>
+    <carte-menu />
+    <showing>
+      <tabb />
+      <make />
+    </showing>
+  </div>
 </template>
 
 <script>
 import Showing from "@/components/Showing.vue";
 import Tabb from "@/components/Tabb.vue";
 import Make from "./Make.vue";
+import CarteMenu from "../../../components/CarteMenu.vue";
 
 export default {
-  components: { Tabb, Make, Showing },
+  components: { Tabb, Make, Showing, CarteMenu },
   name: "Nproject",
 };
 </script>

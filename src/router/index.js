@@ -11,6 +11,7 @@ VueRouter.prototype.push = function push(location) {
 
 // 导入组件
 const Register = () => import('@/views/Register.vue')
+const GetRegister = () => import('@/views/register/GetRegister.vue')
 const Home = () => import('@/components/home/Home.vue')
 
 const Probation = () => import('@/views/fuyou/Probation.vue')
@@ -33,26 +34,26 @@ const routes = [
   },
   {
     path: '/views',
-
     component: Register,
+  },
 
+  {
+    path: '/register',
+    component: GetRegister,
   },
   {
     path: '/home',
-
     component: Home,
 
   },
 
   {
     path: '/fuyou',
-
     component: Probation,
 
   },
 
   {
-
     path: "/child",
     component: Nproject,
   },
@@ -63,7 +64,6 @@ const routes = [
   {
     path: '/record',
     component: Record,
-
   },
 
 

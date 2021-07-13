@@ -1,3 +1,5 @@
+
+
 <template>
   <div class="register">
     <div class="outdiv">
@@ -6,13 +8,13 @@
         status-icon
         :rules="rules"
         ref="ruleForm"
-        label-width="80px"
+        label-width="100px"
         class="demo-ruleForm"
         :hide-required-asterisk="true"
       >
-        <h2>用户登录</h2>
+        <h2>用户注册</h2>
 
-        <el-form-item label="账号" prop="userName">
+        <el-form-item label="注册账号" prop="userName">
           <el-input
             v-model="ruleForm.userName"
             placeholder="请输入账号"
@@ -25,6 +27,14 @@
             v-model="ruleForm.password"
             autocomplete="off"
             placeholder="请输入密码"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="请确认密码" prop="checkPass">
+          <el-input
+            type="password"
+            v-model="ruleForm.checkPass"
+            autocomplete="off"
+            placeholder="请确认密码"
           ></el-input>
         </el-form-item>
 
@@ -41,28 +51,25 @@
             </el-form-item>
           </el-col>
           <el-col :span="12" class="code-box">
-            <el-input v-model="code" placeholder="请输入内容"></el-input>
+            <el-input v-model="code" style="width: 100%"></el-input>
+            <!-- <div class="code">
+              <span>{{ code }}</span>
+            </div> -->
           </el-col>
         </el-row>
-
-        <div class="input_checkbox">
-          <el-checkbox class="remember" v-model="rememberpwd"
-            >记住密码</el-checkbox
-          >
-        </div>
 
         <div class="btn">
           <el-form-item>
             <el-button
               type="primary"
-              @click.prevent="submitForm()"
+              @click.prevent="register()"
               style="width: 100%"
-              >登录</el-button
+              >注册</el-button
             >
           </el-form-item>
         </div>
-        <div class="zhuce">
-          <a @click="register()"><i class="el-icon-right">前往注册</i></a>
+        <div class="login">
+          <a @click="gologin"><i class="el-icon-back">返回登录页面</i></a>
         </div>
       </el-form>
     </div>
@@ -71,6 +78,7 @@
 <script>
 import { getCaptcha } from "@/network/getlogin";
 export default {
+  name: "GetRegister",
   data() {
     let validatePass = (rule, value, callback) => {
       if (value === "") {
@@ -85,7 +93,7 @@ export default {
 
     let validatePass2 = (rule, value, callback) => {
       if (value === "") {
-        callback(new Error("请再次输入密码"));
+        callback(new Error("请确认输入密码"));
       } else if (value !== this.ruleForm.password) {
         callback(new Error("两次输入密码不一致!"));
       } else {
@@ -106,7 +114,7 @@ export default {
       },
       rules: {
         userName: [
-          { required: true, message: "请输入账号", trigger: "blur" },
+          { required: true, message: "请注册账号", trigger: "blur" },
           {
             min: 5,
             max: 10,
@@ -122,20 +130,6 @@ export default {
   },
   created() {
     this.getCaptcha();
-
-    // this.axios({
-    //   method: "get",
-    //   url: "http://localhost:8888/user/getCaptcha",
-    //   headers: {
-    //     "Content-Type": "application/json;charset=UTF-8",
-    //   },
-    //   withCredentials: true,
-    //   // data: params,
-    // }).then((result) => {
-    //   console.log(result.data.data);
-    //   //返回验证码
-    //   this.code = result.data.data;
-    // });
   },
 
   methods: {
@@ -146,32 +140,17 @@ export default {
         this.code = res.data;
       });
     },
-    // request() {
-    //   this.axios({
-    //     method: "get",
-    //     url: "http://localhost:8888/user/getCaptcha",
-    //     headers: {
-    //       "Content-Type": "application/json;charset=UTF-8",
-    //     },
-    //     withCredentials: true,
-    //     // data: params,
-    //   }).then((result) => {
-    //     console.log(result.data.data);
-    //     //返回验证码
-    //     this.code = result.data.data;
-    //   });
-    // },
 
-    submitForm() {
+    register() {
       const { userName, password, captcha } = this.ruleForm;
       if (userName && password && captcha) {
         //执行校验成功的相关操作
         if (this.code == 200) {
-          this.$router.push({ path: "/home" });
+          // this.$router.push({ path: "/views" });
         }
       } else {
         this.$refs["ruleForm"].validateField([userName, password, captcha]);
-        alert("请输入账号密码");
+        alert("请注册账号密码");
         return false;
       }
       //请求参数
@@ -182,7 +161,7 @@ export default {
       };
       this.axios({
         method: "post",
-        url: "http://localhost:8888/user/login",
+        url: "http://localhost:8888/user/register",
         headers: {
           "Content-Type": "application/json",
         },
@@ -194,58 +173,35 @@ export default {
         this.data = res.data;
         if (res.data.code == 200) {
           this.$message({
-            message: "登陆成功",
+            message: "注册成功,请登录",
             type: "success",
           });
 
-          this.$router.push({ path: "/home" });
+          this.$router.push({ path: "/views" });
         } else {
           this.$message({
-            message: "登录失败,请输入正确账号或密码",
+            message: "用户已存在，请重新注册",
             type: "error",
           });
         }
       });
-
-      // setTimeout(() => {
-      //   // this.logining = false;
-      //   // this.$store.commit("login", "true");
-
-      //   this.$router.push({ path: "/home" });
-      // }, 1000);
-
-      // this.$router.push("/home");
-
-      //全部校验
-      // this.$refs[formName].validate((valid) => {
-      //   if (valid) {
-      //     // this.logining = true;
-      //     setTimeout(() => {
-      //       // this.logining = false;
-      //       // this.$store.commit("login", "true");
-
-      //       this.$router.push({ path: "/home" });
-      //     }, 1000);
-      //     // alert("提交成功");
-      //     // this.$router.push("/home");
-      //   } else {
-      //     // console.log("error submit!!");
-
-      //     return false;
-      //   }
-      // });
     },
-    register() {
-      this.$router.push("/register");
+    gologin() {
+      this.$router.push({ path: "/views" });
     },
   },
 };
 </script>
 <style scoped>
+.login {
+  position: relative;
+  left: 100px;
+  top: -30px;
+}
 .zhuce {
   position: relative;
-  left: 80px;
-  top: -30px;
+  left: 90px;
+  top: -20px;
 }
 .code {
   border: 1px solid silver;
@@ -259,13 +215,13 @@ export default {
   height: 770px;
 
   position: relative;
-  background-image: url("../assets/1.jpg");
+  background-image: url("../../assets/1.jpg");
   background-repeat: repeat;
   background-size: 100%;
 }
 .outdiv {
   height: 400px;
-  width: 390px;
+  width: 400px;
   position: absolute;
   top: 30%;
   left: 45%;

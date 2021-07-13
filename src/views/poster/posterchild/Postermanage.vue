@@ -89,7 +89,7 @@
                   type="text"
                   size="small"
                 >
-                  移除
+                  删除
                 </el-button>
               </td>
             </tr>
