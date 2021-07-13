@@ -16,15 +16,9 @@ export default {
   data() {
     return {
       msg: "付邮试用",
-      tab0: true,
-      tab1: true,
-      tab2: true,
     };
   },
   methods: {
-    handleTabRemove(name) {
-      this["tab" + name] = false;
-    },
     logout() {
       this.$confirm("确认退出？", "提示", {
         confirmButtonText: "确定",
